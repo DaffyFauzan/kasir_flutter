@@ -8,11 +8,25 @@ class CashierPage extends StatefulWidget {
 }
 
 class _CashierPageState extends State<CashierPage> {
-  final TextEditingController SearchController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
+
+  final List<Map<String, dynamic>> products = [
+    {
+      'name': 'Coklat Susu',
+      'price': 10000,
+      'stock': 10,
+      'imageUrl': 'https://png.pngtree.com/png-vector/20240203/ourmid/pngtree-chocolate-drink-png-png-image_11532197.png'
+    },
+    {
+      'name': 'Kopi Latte',
+      'price': 15000,
+      'stock': 10,
+      'imageUrl': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfX9w9kqyrS8UwWi99xMTiv_cV-BZk1vnKtg&s'
+    },
+  ];
 
   @override
-
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(
@@ -41,9 +55,9 @@ class _CashierPageState extends State<CashierPage> {
               height: 20,
             ),
             TextFormField(
-              controller: SearchController,
+              controller: searchController,
               decoration: InputDecoration(
-                hintText: 'cari produk...',
+                hintText: 'Cari produk...',
                 hintStyle: TextStyle(
                   color: Colors.grey[400],
                 ),
@@ -61,6 +75,7 @@ class _CashierPageState extends State<CashierPage> {
                 ),
               ),
             ),
+            const SizedBox(height: 20),
             Expanded(
               child: ListView.separated(
                 separatorBuilder: (context, index) {
@@ -68,72 +83,88 @@ class _CashierPageState extends State<CashierPage> {
                     height: 15,
                   );
                 },
-                itemCount: 10,
-                itemBuilder: (context, index){
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  final product = products[index];
                   return Container(
                     height: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       color: Colors.grey[300],
                     ),
-                    child: Row(children: [
-                      Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(8.0),
-                            bottomLeft: Radius.circular(8.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(8.0),
+                              bottomLeft: Radius.circular(8.0),
+                            ),
+                            color: Colors.grey[400],
                           ),
-                          color: Colors.grey[400],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 100,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Coklat Susu",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                Text(
-                                  "Minuman",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                ),
-                              ],
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(8.0),
+                              bottomLeft: Radius.circular(8.0),
                             ),
-                            Text(
-                              "Rp. 10.000",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
+                            child: Image.network(
+                              product['imageUrl'],
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(Icons.image_not_supported);
+                              },
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    product['name'],
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Stock: ${product['stock']}",
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],),
+                              Text(
+                                "Rp. ${product['price']}",
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   );
                 },
               ),
-            )
+            ),
           ],
         ),
-        ),
+      ),
     );
   }
 }
