@@ -11,8 +11,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'ramones',
-      home: const CashierPage(),
+      title: 'Daffinity',
+      home: CashierPage(),
     );
   }
 }
